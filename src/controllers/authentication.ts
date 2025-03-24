@@ -1,43 +1,47 @@
 import { RequestHandler } from 'express';
-import admin from '../connections';
+import axios from 'axios';
+import admin from '../config/firebase';
+import catchAsync from '../helpers/catchAsync';
+import AppSuccess from '../helpers/appSuccess';
+import AppError from '../helpers/appError';
+import errorState from '../helpers/errorState';
+import { addUser } from '../models/userModel';
 
-export const register: RequestHandler = async (req, res, next) => {
+export const register: RequestHandler = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
-  try {
-    const userRecord = await admin.auth().createUser({
+  const userRecord = await admin.auth().createUser({
+    email,
+    password
+  });
+
+  if (!userRecord.email || !userRecord.uid) {
+    return AppError(errorState.MISSING_DATA, next);
+  }
+
+  await addUser({ uid: userRecord.uid, email: userRecord.email });
+
+  AppSuccess({ res, message: '使用者註冊成功' });
+});
+
+export const login: RequestHandler = catchAsync(async (req, res, next) => {
+  const { email, password } = req.body;
+
+  // 呼叫 Firebase REST API，使用 Email/Password 進行登入，獲取 ID Token
+  const response = await axios.post(
+    `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.FIREBASE_API_KEY}`,
+    {
       email,
-      password
-    });
+      password,
+      returnSecureToken: true
+    }
+  );
 
-    res.status(201).json({
-      message: '使用者註冊成功',
-      user: userRecord
-    });
-  } catch (error: any) {
-    console.error('註冊錯誤:', error);
-    res.status(400).json({
-      error: error.message || '註冊失敗'
-    });
-  }
-};
+  const { idToken } = response.data;
 
-export const login: RequestHandler = async (req, res, next) => {
-  const { email } = req.body;
+  AppSuccess({ res, data: { token: idToken }, message: '使用者登入成功' });
+});
 
-  try {
-    const userRecord = await admin.auth().getUserByEmail(email);
-
-    const customToken = await admin.auth().createCustomToken(userRecord.uid);
-
-    res.status(200).json({
-      message: '登入成功',
-      token: customToken
-    });
-  } catch (error: any) {
-    console.error('登入錯誤:', error);
-    res.status(400).json({
-      error: error.message || '登入失敗'
-    });
-  }
-};
+export const checkIfAuthenticated: RequestHandler = catchAsync(async (req, res, next) => {
+  AppSuccess({ res, message: '驗證使用者身份已登入' });
+});

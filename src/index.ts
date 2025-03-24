@@ -7,6 +7,9 @@ import logger from 'morgan';
 import dotenv from 'dotenv';
 
 import router from './routes';
+import errHandle from './middlewares/error';
+import AppError from './helpers/appError';
+import errorState from './helpers/errorState';
 
 dotenv.config();
 
@@ -25,6 +28,12 @@ app.use(
 );
 
 app.use('/api/v1', router());
+
+app.use('*', (req, res, next) => {
+  AppError(errorState.ROUTE_NOT_FOUND, next);
+});
+
+app.use(errHandle);
 
 const server = http.createServer(app);
 server.listen(process.env.PORT);
