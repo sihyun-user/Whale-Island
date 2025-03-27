@@ -5,7 +5,7 @@ const errorState = {
   'auth/invalid-password': { statusCode: 401, message: '密碼錯誤，請重新輸入' },
   'auth/user-not-found': { statusCode: 404, message: '用戶不存在，請先註冊' },
   'auth/too-many-requests': { statusCode: 429, message: '請稍後再試，您的請求過於頻繁' },
-  'auth/expired-id-token': { statusCode: 401, message: '登入已過期，請重新登入' },
+  'auth/id-token-expired': { statusCode: 401, message: '驗證已過期，請重新登入' },
   'auth/argument-error': { statusCode: 400, message: '參數錯誤' },
 
   // Firestore 資料庫錯誤

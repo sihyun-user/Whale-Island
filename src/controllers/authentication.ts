@@ -28,10 +28,10 @@ export const thirdPartyRegister: RequestHandler = catchAsync(async (req, res, ne
 
     await updateUser({ uid, email, username: displayName, avatar: photoURL });
 
-    AppSuccess({ res, data: { token: idToken }, message: '使用者第三方註冊成功' });
+    AppSuccess({ res, message: '使用者第三方註冊成功' });
   }
 
-  AppSuccess({ res, data: { token: idToken }, message: '使用者第三方可直接登入' });
+  AppSuccess({ res, message: '使用者第三方可直接登入' });
 });
 
 export const checkIfAuthenticated: RequestHandler = catchAsync(async (req, res, next) => {
