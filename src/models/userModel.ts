@@ -1,17 +1,22 @@
 import admin from '../config/firebase';
 const db = admin.firestore();
 
-export class User {
+interface User {
   uid: string;
-  email: string;
-  username: string;
-
-  constructor(uid: string, email: string, username: string) {
-    this.uid = uid;
-    this.email = email;
-    this.username = username;
-  }
+  email?: string;
+  username?: string;
+  avatar?: string;
+  followers?: string[];
+  following?: string[];
+  createdAt?: Date;
 }
 
-export const addUser = async ({ uid, email }: { uid: string; email: string }) =>
-  db.collection('users').add({ uid, email, username: '' });
+// 更新用戶資料
+export const updateUser = async (values: User) =>
+  db
+    .collection('users')
+    .doc(values.uid)
+    .set({ ...values });
+
+// 獲取用戶資料
+export const getUser = async (uid: string) => db.collection('users').doc(uid).get();

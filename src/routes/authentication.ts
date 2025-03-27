@@ -7,6 +7,7 @@ const authRouter = express.Router();
 
 authRouter.post('/register', authController.register);
 authRouter.post('/login', authController.login);
+authRouter.post('/thirdParty', authController.thirdPartyLogin);
 authRouter.post('/checkIfAuthenticated', checkIfAuthenticated, authController.checkIfAuthenticated);
 
 export default (router: express.Router) => {
