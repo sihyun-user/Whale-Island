@@ -4,10 +4,10 @@ import catchAsync from '../helpers/catchAsync';
 import AppError from '../helpers/appError';
 import errorState from '../helpers/errorState';
 
-export const checkIfAuthenticated: RequestHandler = catchAsync(async (req: any, res, next) => {
+export const isAuthenticated: RequestHandler = catchAsync(async (req: any, res, next) => {
   // 提取 Bearer Token
   if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
-    req.authToken = req.headers.authorization.split(' ')[1]; // 設置 authToken
+    req.authToken = req.headers.authorization.split(' ')[1];
   } else {
     req.authToken = null;
   }
