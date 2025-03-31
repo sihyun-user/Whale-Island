@@ -10,7 +10,10 @@ const db = admin.firestore();
 export const register: RequestHandler = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
+  const { uid } = await admin.auth().createUser({ email, password });
+
   const params = {
+    uid,
     email,
     username: '',
     avatar: '',
@@ -18,8 +21,6 @@ export const register: RequestHandler = catchAsync(async (req, res, next) => {
     following: [],
     createdAt: new Date()
   } as User;
-
-  await admin.auth().createUser({ email, password });
 
   await db.collection('users').add(params);
 
@@ -42,6 +43,7 @@ export const thirdPartyRegister: RequestHandler = catchAsync(async (req, res, ne
       .collection('users')
       .doc(uid)
       .set({
+        uid,
         email,
         username: displayName,
         avatar: photoURL,
