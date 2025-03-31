@@ -11,7 +11,7 @@ const validate = (schema: ZodSchema): RequestHandler => {
         next();
       } else {
         const message = result.error.errors[0].message || '資料驗證錯誤';
-        AppError({ statusCode: 400, code: 'zodValidate', message }, next);
+        AppError({ statusCode: 400, message }, next);
       }
     } catch (error) {
       AppError(errorState.DEFAULT, next);

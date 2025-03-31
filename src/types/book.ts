@@ -1,7 +1,7 @@
 export type BookCategory =
   | 'romance'
-  | 'bL'
-  | 'gL'
+  | 'bl'
+  | 'gl'
   | 'fantasy'
   | 'sciFi'
   | 'mystery'
@@ -10,12 +10,19 @@ export type BookCategory =
   | 'school'
   | 'workplace';
 
+export type BookStatus = 'draft' | 'published';
+
+export type ageClassify = 'g' | 'r18' | 'r18g';
+
 export interface Book {
-  author?: string;
-  title?: string;
-  description?: string;
-  following?: string[];
-  category?: BookCategory[];
-  updatedAt?: Date;
-  createdAt?: Date;
+  authorId: string;
+  title: string;
+  description: string;
+  subscribers: string[];
+  category: BookCategory[];
+  status: BookStatus;
+  ageClassify: ageClassify;
+  coverImage: string;
+  updatedAt: number;
+  createdAt: number;
 }

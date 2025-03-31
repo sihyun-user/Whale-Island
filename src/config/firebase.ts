@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import admin from 'firebase-admin';
+import { getFirestore } from 'firebase-admin/firestore';
 
 dotenv.config();
 
@@ -19,5 +20,8 @@ const serviceAccount = {
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount as admin.ServiceAccount)
 });
+
+const db = getFirestore();
+db.settings({ ignoreUndefinedProperties: true }); // Firestore 會自動忽略 undefined 屬性
 
 export default admin;

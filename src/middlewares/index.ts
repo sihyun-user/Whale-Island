@@ -26,7 +26,7 @@ export const isAuthenticated: RequestHandler = catchAsync(async (req: any, res, 
   const userRecord = await admin.auth().getUser(userInfo.uid);
 
   if (!userRecord) {
-    return AppError(errorState.USER_NOT_FOUND, next); // 可以自訂 USER_NOT_FOUND 錯誤處理
+    return AppError(errorState.USER_NOT_FOUND, next);
   }
 
   req.uid = userInfo.uid;
