@@ -23,13 +23,13 @@ export const createBook: RequestHandler = catchAsync(async (req, res, next) => {
     status: status ?? 'draft',
     ageClassify: ageClassify ?? 'g',
     coverImage: coverImage ?? '',
+    chapters: [],
     updatedAt: Date.now(),
     createdAt: Date.now()
   };
 
+  // 獲取 document ID 並更新資料
   const bookRef = await db.collection('books').add(params);
-
-  // 獲取 document ID 並更新 book 資料
   const bookId = bookRef.id;
   await bookRef.update({ id: bookId });
 

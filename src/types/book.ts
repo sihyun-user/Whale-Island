@@ -24,6 +24,7 @@ export interface Book {
   status: BookStatus;
   ageClassify: ageClassify;
   coverImage: string;
+  chapters: string[];
   updatedAt: number;
   createdAt: number;
 }

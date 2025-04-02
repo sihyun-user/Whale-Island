@@ -21,6 +21,7 @@ const errorState = {
   MISSING_DATA: { statusCode: 400, message: '缺少必要參數' },
   USER_NOT_FOUND: { statusCode: 404, message: '用戶不存在' },
   BOOK_NOT_FOUND: { statusCode: 404, message: '作品不存在' },
+  UNAUTHORIZED: { statusCode: 403, message: '您沒有權限執行此操作' },
   DEFAULT: { statusCode: 500, message: '未知錯誤，請稍後再試' }
 };
 

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { required } from './index';
+import { required, validateText } from './index';
 import validate from '../middlewares/validate';
 
 export const register = validate(
@@ -15,4 +15,12 @@ export const register = validate(
       message: '密碼與確認密碼不相符',
       path: ['confirmPassword']
     })
+);
+
+export const updateUserInfo = validate(
+  z.object({
+    username: validateText('暱稱', 2, 20),
+    description: z.string().max(200, '描述不能超過200字').optional(),
+    avatar: z.string().optional()
+  })
 );

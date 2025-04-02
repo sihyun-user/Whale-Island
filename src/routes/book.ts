@@ -1,7 +1,7 @@
 import express from 'express';
 
 import * as bookController from '../controllers/book';
-import * as bookSchema from '../schema/book';
+import * as bookSchema from '../schemas/book';
 import { isAuthenticated } from '../middlewares';
 
 const bookRouter = express.Router();

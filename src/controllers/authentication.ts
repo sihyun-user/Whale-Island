@@ -6,6 +6,7 @@ import AppSuccess from '../helpers/appSuccess';
 import AppError from '../helpers/appError';
 import errorState from '../helpers/errorState';
 import { User } from '../types/authentication';
+import { generateRandomId } from '../helpers/index';
 
 const db = admin.firestore();
 
@@ -17,8 +18,9 @@ export const register: RequestHandler = catchAsync(async (req, res, next) => {
   const params = {
     uid,
     email,
-    username: '',
+    username: generateRandomId(),
     avatar: '',
+    description: '',
     followers: [],
     following: [],
     createdAt: Date.now()
@@ -39,7 +41,7 @@ export const thirdPartyRegister: RequestHandler = catchAsync(async (req, res, ne
   if (!userDoc.exists) {
     const userRecord = await admin.auth().getUser(uid);
 
-    const { email, displayName, photoURL } = userRecord;
+    const { email, photoURL } = userRecord;
 
     await db
       .collection('users')
@@ -47,8 +49,9 @@ export const thirdPartyRegister: RequestHandler = catchAsync(async (req, res, ne
       .set({
         uid,
         email,
-        username: displayName,
+        username: generateRandomId(),
         avatar: photoURL,
+        description: '',
         followers: [],
         following: [],
         createdAt: Date.now()
@@ -89,4 +92,19 @@ export const getUserInfo: RequestHandler = catchAsync(async (req, res, next) => 
   const user = userDoc.data() as User;
 
   AppSuccess({ res, data: user, message: '使用者資訊取得成功' });
+});
+
+export const updateUserInfo: RequestHandler = catchAsync(async (req, res, next) => {
+  const { uid } = req;
+  const { username, avatar, description } = req.body;
+
+  const userDoc = await db.collection('users').doc(uid).get();
+
+  if (!userDoc.exists) {
+    return AppError(errorState.USER_NOT_FOUND, next);
+  }
+
+  await db.collection('users').doc(uid).update({ username, avatar, description });
+
+  AppSuccess({ res, message: '使用者資訊更新成功' });
 });
