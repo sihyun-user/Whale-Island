@@ -15,6 +15,7 @@ export type BookStatus = 'draft' | 'published';
 export type ageClassify = 'g' | 'r18' | 'r18g';
 
 export interface Book {
+  id: string | null;
   authorId: string;
   title: string;
   description: string;

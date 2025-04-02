@@ -5,5 +5,11 @@ export interface User {
   avatar: string;
   followers: string[];
   following: string[];
-  createdAt: Date;
+  createdAt: number;
+}
+
+export interface AuthUser {
+  uid: string;
+  username: string;
+  avatar: string;
 }
