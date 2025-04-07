@@ -1,5 +1,10 @@
+export type Rules = 'sixDice' | 'twelveDice' | 'separatePeople';
+
 export interface Anchor {
   id: string | null;
-  summary: string;
-  rules: string[];
+  content: string;
+  rules: Rules[];
+  createdAt: number;
+  updatedAt: number;
+  comments: string[];
 }

@@ -13,6 +13,8 @@ chapterRouter.post(
   chapterController.createChapter
 );
 
+chapterRouter.get('/:id', chapterController.getChapter);
+
 export default (router: express.Router) => {
   router.use('/chapter', chapterRouter);
 };
