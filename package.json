@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon",
+    "start": "cross-env NODE_ENV=production node ./dist/index.js",
+    "pord": "cross-env NODE_ENV=production nodemon ./src/index.js",
+    "dev": "cross-env NODE_ENV=development nodemon",
     "build": "tsc",
     "lint": "eslint src/**/*.ts",
     "format": "prettier --config .prettierrc.json --write src/**/*.ts"
@@ -17,7 +19,11 @@
     }
   },
   "devDependencies": {
+    "@types/compression": "^1.7.5",
+    "@types/cookie-parser": "^1.4.8",
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@types/morgan": "^1.9.9",
     "@typescript-eslint/eslint-plugin": "^8.26.1",
     "@typescript-eslint/parser": "^8.26.1",
     "eslint": "^8.57.1",
@@ -35,7 +41,18 @@
     "typescript": "^5.8.2"
   },
   "dependencies": {
+    "axios": "^1.8.4",
+    "compression": "^1.8.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "mongoose": "^8.12.1"
+    "firebase": "^11.5.0",
+    "firebase-admin": "^13.2.0",
+    "mongoose": "^8.12.1",
+    "morgan": "^1.10.0",
+    "zod": "^3.24.2"
   }
 }
