@@ -15,7 +15,7 @@ export const register: RequestHandler = catchAsync(async (req, res, next) => {
 
   const { uid } = await admin.auth().createUser({ email, password });
 
-  const params = {
+  const params: User = {
     uid,
     email,
     username: generateRandomId(),
@@ -24,7 +24,7 @@ export const register: RequestHandler = catchAsync(async (req, res, next) => {
     followers: [],
     following: [],
     createdAt: Date.now()
-  } as User;
+  };
 
   await db.collection('users').doc(uid).set(params);
 

@@ -5,8 +5,8 @@ export interface Anchor {
   content: string;
   subject: string;
   rules: Rules[];
-  tatus: 'draft' | 'published';
+  status: 'draft' | 'published';
+  comments: string[];
   createdAt: number;
   updatedAt: number;
-  comments: string[];
 }
