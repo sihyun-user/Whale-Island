@@ -24,6 +24,7 @@ export const createBook: RequestHandler = catchAsync(async (req, res, next) => {
     ageClassify: ageClassify ?? 'g',
     coverImage: coverImage ?? '',
     chapters: [],
+    anchors: [],
     updatedAt: Date.now(),
     createdAt: Date.now()
   };

@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { required, validateText } from './index';
 import validate from '../middlewares/validate';
 
-export const createChapter = validate(
+export const createAnchor = validate(
   z.object({
     bookId: z.string({ required_error: required('作品 Id') }),
     title: validateText('章節名稱', 2, 20),

@@ -4,14 +4,14 @@ import catchAsync from '../helpers/catchAsync';
 import AppSuccess from '../helpers/appSuccess';
 import AppError from '../helpers/appError';
 import errorState from '../helpers/errorState';
+import { Book } from '../types/book';
 import { Chapter } from '../types/chapter';
 
 const db = admin.firestore();
 
 export const createChapter: RequestHandler = catchAsync(async (req, res, next) => {
   const { uid } = req;
-  const { id: bookId } = req.params;
-  const { title, content, status } = req.body;
+  const { bookId, title, content, status } = req.body;
 
   const bookDoc = await db.collection('books').doc(bookId).get();
 
@@ -48,4 +48,22 @@ export const createChapter: RequestHandler = catchAsync(async (req, res, next) =
     });
 
   AppSuccess({ res, message: '章節建立成功' });
+});
+
+export const getChapters: RequestHandler = catchAsync(async (req, res, next) => {
+  const { id: bookId } = req.params;
+
+  const bookDoc = await db.collection('books').doc(bookId).get();
+
+  if (!bookDoc.exists) {
+    return AppError(errorState.BOOK_NOT_FOUND, next);
+  }
+
+  const bookData = bookDoc.data() as Book;
+
+  const chaptersRecord = await db.collection('chapters').where('id', 'in', bookData.chapters).get();
+
+  const data = chaptersRecord.docs.map((doc) => doc.data() as Chapter);
+
+  AppSuccess({ res, data, message: '章節列表' });
 });

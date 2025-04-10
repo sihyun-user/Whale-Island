@@ -7,11 +7,12 @@ import { isAuthenticated } from '../middlewares';
 const chapterRouter = express.Router();
 
 chapterRouter.post(
-  '/create/:id',
+  '/create',
   isAuthenticated,
   chapterSchema.createChapter,
   chapterController.createChapter
 );
+chapterRouter.get('/list/:id', chapterController.getChapters);
 
 export default (router: express.Router) => {
   router.use('/chapter', chapterRouter);
