@@ -24,6 +24,11 @@ jobs:
           npm install -g firebase-tools
           npm install
 
+      - name: Set up Firebase Admin credentials
+        working-directory: ./functions
+        run: |
+          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}" > ./serviceAccountKey.json
+
       - name: Deploy to Firebase Functions
         working-directory: ./functions
         run: firebase deploy --only functions --token ${{ secrets.FIREBASE_TOKEN }}

@@ -36,3 +36,10 @@ app.use('*', (req, res, next) => {
 app.use(errHandle);
 
 export const api = functions.https.onRequest(app);
+
+if (process.env.NODE_ENV === 'development') {
+  const port = 8000;
+  app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+  });
+}
