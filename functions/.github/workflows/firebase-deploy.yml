@@ -1,0 +1,35 @@
+name: Firebase Deploy
+
+on:
+  push:
+    branches:
+      - main # 只在 `main` 分支推送時觸發部署
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # 使用 ubuntu 環境執行作業
+
+    steps:
+      # 步驟 1：檢查代碼
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 步驟 2：設定 Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+
+      # 步驟 3：安裝 Firebase CLI 和依賴
+      - name: Install dependencies
+        run: |
+          npm install -g firebase-tools  # 安裝 Firebase CLI
+          npm install  # 安裝專案依賴
+
+      # 步驟 4：登錄 Firebase (使用你在 Firebase Console 中生成的 CI token)
+      - name: Firebase login
+        run: firebase login:ci --token ${{ secrets.FIREBASE_TOKEN }}
+
+      # 步驟 5：部署 Firebase Functions
+      - name: Deploy to Firebase Functions
+        run: firebase deploy --only functions --token ${{ secrets.FIREBASE_TOKEN }}
