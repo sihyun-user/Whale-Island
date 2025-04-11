@@ -1,14 +1,14 @@
 {
-  "name": "backend_api",
+  "name": "functions",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./dist/index.js",
-    "pord": "cross-env NODE_ENV=production nodemon ./src/index.js",
+    "prod": "cross-env NODE_ENV=production nodemon ./src/index.js",
     "dev": "cross-env NODE_ENV=development nodemon",
     "build": "tsc",
-    "deploy": "firebase deploy --only functions",
+    "deploy": "npm run build && firebase deploy --only functions",
     "lint": "eslint src/**/*.ts",
     "format": "prettier --config .prettierrc.json --write src/**/*.ts"
   },
