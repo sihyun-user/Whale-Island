@@ -1,5 +1,5 @@
+import * as functions from 'firebase-functions';
 import express from 'express';
-import http from 'http';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import cors from 'cors';
@@ -35,5 +35,4 @@ app.use('*', (req, res, next) => {
 
 app.use(errHandle);
 
-const server = http.createServer(app);
-server.listen(process.env.PORT);
+export const api = functions.https.onRequest(app);
