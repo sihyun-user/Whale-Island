@@ -18,6 +18,9 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Install jq
+        run: sudo apt-get install jq
+
       - name: Install dependencies
         working-directory: ./functions
         run: |
@@ -27,7 +30,9 @@ jobs:
       - name: Set up Firebase Admin credentials
         working-directory: ./functions
         run: |
-          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}" > ./serviceAccountKey.json
+          echo $FIREBASE_SERVICE_ACCOUNT_KEY | jq -r '.' > serviceAccountKey.json
+        env:
+          FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
 
       - name: Deploy to Firebase Functions
         working-directory: ./functions
